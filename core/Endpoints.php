@@ -4,6 +4,7 @@
 require_once("utils/DateTimeService.php");
 require_once("lineas/LineaService.php");
 require_once("empleados/EmpleadoService.php");
+require_once("productos/ProductoService.php");
 
 $endpoints = array(
     "getDate" => array(
@@ -20,7 +21,11 @@ $endpoints = array(
 
     "getLineas" => array(
                     "service" => "LineaService",
-                    "endpoint" => "get_lineas")
+                    "endpoint" => "get_lineas"),
+
+    "getProductos" => array(
+                    "service" => "ProductoService",
+                    "endpoint" => "get_productos")
 );
 
 ?>
