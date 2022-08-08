@@ -6,7 +6,7 @@ class ProcesoService extends Service
     public function get_all_procesos()
     {
         $sql = "SELECT pl.id_proceso, pl.id_personalizado, pl.hora_inicio,
-                pl.hora_fin, pl.kilos_teoricos, pl.kilos_reales, pl.eficiencia,
+                pl.hora_fin, pl.kilos_teoricos, pl.kilos_reales,
                 e.nombre as jefe, l.codigo as linea, p.nombre as producto
             FROM proceso_linea as pl
             INNER JOIN miembro_equipo as me
@@ -23,8 +23,8 @@ class ProcesoService extends Service
 
     public function add_proceso($params)
     {
-        $sql = "INSERT INTO proceso_linea (`id_personalizado`, `id_linea`, `id_producto`,
-                    `id_jefe`, `kilos_teoricos`, `kilos_reales`, `eficiencia`,
+        $sql = "INSERT INTO proceso_linea (`id_personalizado`, `id_linea`,
+                    `id_producto`, `id_jefe`, `kilos_teoricos`, `kilos_reales`,
                     `hora_inicio`, `hora_fin`)
                 VALUES ('" .
                 $params['idPersonalizado'] . "', " .
@@ -41,8 +41,6 @@ class ProcesoService extends Service
                         WHERE e.nombre LIKE '" . $params["jefe"] . "'), '" .
                 $params["kilosTeoricos"] . "', '" .
                 $params["kilosReales"] . "', '" .
-                $this->calcularEficiencia($params["kilosTeoricos"],
-                                          $params["kilosReales"]) . "', '" .
                 $params["horaInicio"] . "', " .
                 "(SELECT CONVERT(NOW(), time)))";
 
@@ -71,11 +69,6 @@ class ProcesoService extends Service
                     $params["horaReinicio"] . "')";
 
         return $this->formatted_database_query($sql);
-    }
-
-    private function calcularEficiencia($kilosTeoricos, $kilosReales)
-    {
-        return $kilosReales / $kilosTeoricos;
     }
 }
 
