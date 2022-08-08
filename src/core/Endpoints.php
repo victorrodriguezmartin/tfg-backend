@@ -6,6 +6,7 @@ require_once("lineas/LineaService.php");
 require_once("empleados/EmpleadoService.php");
 require_once("productos/ProductoService.php");
 require_once("procesos/ProcesoService.php");
+require_once("incidencias/IncidenciaService.php");
 
 $endpoints = array(
     "getDate" => array(
@@ -41,7 +42,17 @@ $endpoints = array(
     "nuevoProceso" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
-                    "endpoint" => "add_proceso")
+                    "endpoint" => "add_proceso"),
+
+    "getIncidencia" => array(
+                    "type" => "GET",
+                    "service" => "IncidenciaService",
+                    "endpoint" => "get_incidencia"),
+
+    "nuevaIncidencia" => array(
+                    "type" => "POST",
+                    "service" => "IncidenciaService",
+                    "endpoint" => "add_incidencia")
 );
 
 ?>
