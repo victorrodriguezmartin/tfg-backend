@@ -46,6 +46,30 @@ class ProcesoService extends Service
                 $params["horaInicio"] . "', " .
                 "(SELECT CONVERT(NOW(), time)))";
 
+        $result = $this->formatted_database_query($sql);
+
+        if ($result["success"] == 1)
+        {
+            foreach ($params["lista"] as $incidencia)
+            {
+                $result2 = $this->add_incidencia($incidencia);
+                if ($result2["success"] == 0)
+                    return $result2;
+            }
+        }
+
+        return $result;
+    }
+
+    private function add_incidencia($params)
+    {
+        $sql = "INSERT INTO incidencia_proceso (`id_proceso`, `descripcion`,
+                    `hora_parada`, `hora_reinicio`) VALUES(" .
+                    "(SELECT MAX(id_proceso) FROM proceso_linea), '" .
+                    $params["descripcion"] . "', '" .
+                    $params["horaParada"] . "', '" .
+                    $params["horaReinicio"] . "')";
+
         return $this->formatted_database_query($sql);
     }
 
