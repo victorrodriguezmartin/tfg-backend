@@ -32,7 +32,12 @@ $endpoints = array(
                     "type" => "GET",
                     "service" => "ProductoService",
                     "endpoint" => "get_productos"),
-    
+
+    "getAllProcesos" => array(
+                    "type" => "GET",
+                    "service" => "ProcesoService",
+                    "endpoint" => "get_all_procesos"),
+
     "nuevoProceso" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",

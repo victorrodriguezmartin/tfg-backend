@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET')
         $service = new $endpoints[$_GET["request"]]["service"]();
         $endpoint = $endpoints[$_GET["request"]]["endpoint"];
 
-        $result = $service->$endpoint();
+        $result = $service->$endpoint($_GET);
 
         if (!isset($result) || empty($result) || !isset($result["success"]) || !isset($result["data"]))
             return bad_response();
