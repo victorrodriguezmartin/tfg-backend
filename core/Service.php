@@ -61,7 +61,7 @@ class Service
         }
         catch (\PDOException $e)
         {
-            return $this->format_data(0, $e->message);
+            return $this->format_data(0, $e->getMessage());
         }
     }
 }

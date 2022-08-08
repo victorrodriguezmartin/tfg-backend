@@ -41,5 +41,4 @@ function db_query_error($exception)
 {
     echo formatted_response(500, "Invalid database query", $exception);
 }
-
 ?>
