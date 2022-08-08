@@ -40,8 +40,8 @@ class ProcesoService extends Service
                             ON me.id_empleado LIKE e.id_empleado
                         WHERE e.nombre LIKE '" . $params["jefe"] . "'), '" .
                 $params["kilosTeoricos"] . "', '" .
-                $params["kilosReales"] . "', '" .
-                $params["horaInicio"] . "', " .
+                $params["kilosReales"] . "', " .
+                "(SELECT CONVERT('" . $params["horaInicio"] . "', time)), " .
                 "(SELECT CONVERT(NOW(), time)))";
 
         $result = $this->formatted_database_query($sql);
@@ -64,9 +64,9 @@ class ProcesoService extends Service
         $sql = "INSERT INTO incidencia_proceso (`id_proceso`, `descripcion`,
                     `hora_parada`, `hora_reinicio`) VALUES(" .
                     "(SELECT MAX(id_proceso) FROM proceso_linea), '" .
-                    $params["descripcion"] . "', '" .
-                    $params["horaParada"] . "', '" .
-                    $params["horaReinicio"] . "')";
+                    $params["descripcion"] . "', " .
+                    "(SELECT CONVERT('" . $params['horaParada'] . "', time)), " .
+                    "(SELECT CONVERT('" . $params['horaReinicio'] . "', time)))";
 
         return $this->formatted_database_query($sql);
     }

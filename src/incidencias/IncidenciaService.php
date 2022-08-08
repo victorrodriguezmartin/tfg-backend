@@ -5,14 +5,14 @@ class IncidenciaService extends Service
 {
     public function add_incidencia($params)
     {
-        // $sql = "INSERT INTO incidencia_proceso (`id_proceso`, `descripcion`,
-        //             `hora_parada`, `hora_reinicio`) VALUES('" .
-        //             $params['idProceso'] . "', " .
-        //             $params['descripcion'] . "', " .
-        //             $params['horaParada'] . "', " .
-        //             $params['horaReinicio'] . "')";
+        $sql = "INSERT INTO incidencia_proceso (`id_proceso`, `descripcion`,
+                `hora_parada`, `hora_reinicio`) VALUES('" .
+                $params['idProceso'] . "', " .
+                $params['descripcion'] . "', " .
+                "(SELECT CONVERT('" . $params['horaParada'] . "', time)), " .
+                "(SELECT CONVERT('" . $params['horaReinicio'] . "', time)))";
 
-        // return $this->formatted_database_query($sql);
+        return $this->formatted_database_query($sql);
 
     }
 
