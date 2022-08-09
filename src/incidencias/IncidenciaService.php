@@ -20,7 +20,7 @@ class IncidenciaService extends Service
     {
         $sql = "SELECT * " .
                "FROM incidencia_proceso " .
-               "WHERE id_proceso LIKE " . $params["id_proceso"];
+               "WHERE id_proceso LIKE " . $params["id"];
 
         return $this->formatted_database_query($sql);
     }
