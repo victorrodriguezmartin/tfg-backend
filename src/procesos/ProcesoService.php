@@ -3,6 +3,25 @@
 
 class ProcesoService extends Service
 {
+    public function get_proceso_by_id($params)
+    {
+        $sql = "SELECT pl.id_proceso, pl.id_personalizado, pl.hora_inicio,
+                    pl.hora_fin, pl.kilos_teoricos, pl.kilos_reales,
+                    e.nombre as jefe, l.codigo as linea, p.nombre as producto
+                FROM proceso_linea as pl
+                INNER JOIN miembro_equipo as me
+                    ON me.id_miembro LIKE pl.id_jefe
+                INNER JOIN empleado as e
+                    ON e.id_empleado LIKE me.id_empleado
+                INNER JOIN linea as l
+                    ON l.id_linea LIKE pl.id_linea
+                INNER JOIN producto as p
+                    ON p.id_producto LIKE pl.id_producto
+                WHERE pl.id_personalizado LIKE '" . $params["id"] . "'";
+
+            return $this->formatted_database_query($sql); 
+    }
+
     public function get_all_procesos()
     {
         $sql = "SELECT pl.id_proceso, pl.id_personalizado, pl.hora_inicio,
@@ -48,9 +67,13 @@ class ProcesoService extends Service
 
         if ($result["success"] == 1)
         {
+            if (!isset($params["lista"]) || empty($params["lista"]))
+                return $result;
+
             foreach ($params["lista"] as $incidencia)
             {
                 $result2 = $this->add_incidencia($incidencia);
+
                 if ($result2["success"] == 0)
                     return $result2;
             }

@@ -34,6 +34,11 @@ $endpoints = array(
                     "service" => "ProductoService",
                     "endpoint" => "get_productos"),
 
+    "getProcesoById" => array(
+                    "type" => "GET",
+                    "service" => "ProcesoService",
+                    "endpoint" => "get_proceso_by_id"),
+
     "getAllProcesos" => array(
                     "type" => "GET",
                     "service" => "ProcesoService",
