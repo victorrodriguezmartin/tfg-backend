@@ -10,6 +10,18 @@ class ProductoService extends Service
         
         return $this->formatted_database_query($sql);
     }
+
+    public function get_producto_by_codigo($codigo)
+    {
+        if (!isset($codigo) || empty($codigo))
+            return $this->format_data(0, "MISSING PARAMETER");
+
+        $sql = "SELECT id_producto " .
+               "    FROM producto " .
+               "    WHERE codigo LIKE '" . $codigo . "'";
+
+        return $this->formatted_database_query($sql);
+    }
 }
 
 ?>
