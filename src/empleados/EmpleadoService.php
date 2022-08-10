@@ -19,6 +19,23 @@ class EmpleadoService extends Service
         
         return $this->formatted_database_query($sql);
     }
+
+    public function get_jefe_by_name($name)
+    {
+        $sql =  "SELECT empleado.id_empleado,
+                        empleado.nombre,
+                        apellido1,
+                        apellido2,
+                        fecha_alta,
+                        fecha_baja
+                FROM empleado
+                INNER JOIN miembro_equipo
+                    ON empleado.id_empleado LIKE miembro_equipo.id_empleado
+                WHERE miembro_equipo.jefe LIKE true
+                    AND empleado.nombre LIKE '" . $name . "'";
+
+        return $this->formatted_database_query($sql);
+    }
 }
 
 ?>

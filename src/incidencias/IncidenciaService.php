@@ -3,9 +3,18 @@
 
 class IncidenciaService extends Service
 {
+    public function get_incidencias_proceso_by_id($params)
+    {
+        $sql = "SELECT * " .
+               "FROM proceso_incidencia " .
+               "WHERE id_proceso LIKE " . $params["id"];
+
+        return $this->formatted_database_query($sql);
+    }
+
     public function add_incidencia($params)
     {
-        $sql = "INSERT INTO incidencia_proceso (`id_proceso`, `descripcion`,
+        $sql = "INSERT INTO proceso_incidencia (`id_proceso`, `descripcion`,
                 `hora_parada`, `hora_reinicio`) VALUES('" .
                 $params['idProceso'] . "', " .
                 $params['descripcion'] . "', " .
@@ -14,15 +23,6 @@ class IncidenciaService extends Service
 
         return $this->formatted_database_query($sql);
 
-    }
-
-    public function get_incidencia($params)
-    {
-        $sql = "SELECT * " .
-               "FROM incidencia_proceso " .
-               "WHERE id_proceso LIKE " . $params["id"];
-
-        return $this->formatted_database_query($sql);
     }
 }
 

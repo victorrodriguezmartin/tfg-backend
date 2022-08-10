@@ -8,6 +8,24 @@ require_once("productos/ProductoService.php");
 require_once("procesos/ProcesoService.php");
 require_once("incidencias/IncidenciaService.php");
 
+/*
+ * Para obtener datos
+ * {
+ *      "get<Nombre Datos>" => array(
+ *          "type" => "GET",
+ *          "service" => "<Nombre servicio>",
+ *          "endpoint" => "get_<Nombre datos>"),
+ * }
+ * 
+ *  
+ * Para insertar datos
+ * {
+ *      "get<Nombre Datos>" => array(
+ *          "type" => "POST",
+ *          "service" => "<NombreServicio>",
+ *          "endpoint" => "add_<nombre datos>"),
+ * }
+ */
 $endpoints = array(
     "getDate" => array(
                     "type" => "GET",
@@ -39,20 +57,20 @@ $endpoints = array(
                     "service" => "ProcesoService",
                     "endpoint" => "get_proceso_by_id"),
 
-    "getAllProcesos" => array(
+    "getProcesos" => array(
                     "type" => "GET",
                     "service" => "ProcesoService",
-                    "endpoint" => "get_all_procesos"),
+                    "endpoint" => "get_procesos"),
 
-    "nuevoProceso" => array(
+    "addProceso" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
                     "endpoint" => "add_proceso"),
 
-    "getIncidencia" => array(
+    "getIncidenciasProcesoById" => array(
                     "type" => "GET",
                     "service" => "IncidenciaService",
-                    "endpoint" => "get_incidencia"),
+                    "endpoint" => "get_incidencias_proceso_by_id"),
 
     "nuevaIncidencia" => array(
                     "type" => "POST",
