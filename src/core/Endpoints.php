@@ -6,7 +6,8 @@ require_once("lineas/LineaService.php");
 require_once("empleados/EmpleadoService.php");
 require_once("productos/ProductoService.php");
 require_once("procesos/ProcesoService.php");
-require_once("incidencias/IncidenciaService.php");
+require_once("Procesoincidencias/ProcesoIncidenciaService.php");
+require_once("ProcesoPeso/ProcesoPesoService.php");
 
 /*
  * Para obtener datos
@@ -52,10 +53,10 @@ $endpoints = array(
                     "service" => "ProductoService",
                     "endpoint" => "get_productos"),
 
-    "getProcesoById" => array(
-                    "type" => "GET",
-                    "service" => "ProcesoService",
-                    "endpoint" => "get_proceso_by_id"),
+    // "getProcesoById" => array(
+    //                 "type" => "GET",
+    //                 "service" => "ProcesoService",
+    //                 "endpoint" => "get_proceso_by_id"),
 
     "getProcesos" => array(
                     "type" => "GET",
@@ -65,17 +66,33 @@ $endpoints = array(
     "addProcesoIncidencia" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
-                    "endpoint" => "add_proceso_incidencia"),
+                    "endpoint" => "add_proceso_and_proceso_incidencia"),
 
     "addProcesoPeso" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
-                    "endpoint" => "add_proceso_peso"),
+                    "endpoint" => "add_proceso_and_proceso_peso"),
 
-    "getIncidenciasProcesoById" => array(
-                    "type" => "GET",
-                    "service" => "IncidenciaService",
-                    "endpoint" => "get_incidencias_proceso_by_id"),
+    // "getProcesoIncidencias" => array(
+    //                 "type" => "GET",
+    //                 "service" => "ProcesoIncidenciaService",
+    //                 "endpoint" => "get_proceso_incidencias"),
+        
+    // "getProcesoIncidenciasById" => array(
+    //                 "type" => "GET",
+    //                 "service" => "ProcesoIncidenciaService",
+    //                 "endpoint" => "get_proceso_incidencias_by_id"),
+    
+    // "getProcesoPesos" => array(
+    //                 "type" => "GET",
+    //                 "service" => "ProcesoPesoService",
+    //                 "endpoint" => "get_proceso_pesos"),
+
+    // "getProcesoPesoById" => array(
+    //                 "type" => "GET",
+    //                 "service" => "ProcesoPesoService",
+    //                 "endpoint" => "get_proceso_peso_by_id"),
+
 );
 
 ?>
