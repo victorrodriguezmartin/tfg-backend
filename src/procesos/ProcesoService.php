@@ -63,7 +63,66 @@ class ProcesoService extends Service
     }
 
 
-    public function add_proceso($params)
+    public function add_proceso_incidencia($params)
+    {
+        $variables = $this->get_local_variables($params);
+
+        // INSERT PROCESO
+        $sql = "INSERT INTO proceso (`id_jefe`, `id_producto_linea`, `id_personalizado`,
+                    `kilos_teoricos`, `kilos_reales`, `hora_inicio`, `hora_fin`)
+                VALUES (" .
+                    "'" . $variables["jefeId"] . "', " .
+                    "'" . $variables["productoLineaId"] . "', " .
+                    "'" . $params["idPersonalizado"] . "', " .
+                    "'" . $params["kilosTeoricos"] . "', " .
+                    "'" . $params["kilosReales"] . "', " .
+                    "(SELECT CONVERT('" . $params["horaInicio"] . "', time)), " .
+                    "(SELECT CONVERT(NOW(), time)))";
+        
+        $result = $this->formatted_database_query($sql);
+
+        if ($result["success"] == 1)
+        {
+            if (!isset($params["lista"]) || empty($params["lista"]))
+                return $result;
+
+            foreach ($params["lista"] as $incidencia)
+            {
+                $result2 = $this->add_incidencia($incidencia);
+
+                if ($result2["success"] == 0)
+                    return $result2;
+            }
+        }
+
+        return $result;
+    }
+
+    public function add_proceso_peso($params)
+    {
+        $variables = $this->get_local_variables($params);
+
+        // INSERT PROCESO
+        $sql = "INSERT INTO proceso (`id_jefe`, `id_producto_linea`, `id_personalizado`,
+                    `kilos_teoricos`, `kilos_reales`, `hora_inicio`, `hora_fin`)
+                VALUES (" .
+                    "'" . $variables["jefeId"] . "', " .
+                    "'" . $variables["productoLineaId"] . "', " .
+                    "'" . $params["idPersonalizado"] . "', " .
+                    "'" . $params["kilosTeoricos"] . "', " .
+                    "'" . $params["kilosReales"] . "', " .
+                    "(SELECT CONVERT('" . $params["horaInicio"] . "', time)), " .
+                    "(SELECT CONVERT(NOW(), time)))";
+
+        $result = $this->formatted_database_query($sql);
+
+        if ($result["success"] == 1)
+            return $this->add_peso($params);
+
+        return $result;
+    }
+
+    private function get_local_variables($params)
     {
         // GET JEFE ID BY NAME.
         $jefeId = $this->empleadoService->get_jefe_by_name($params["jefe"]);
@@ -91,36 +150,12 @@ class ProcesoService extends Service
         
         $productoLineaId = $productoLineaId["data"][0]["id_producto_linea"];
 
-        // INSERT PROCESO
-        $sql = "INSERT INTO proceso (`id_jefe`, `id_producto_linea`, `id_personalizado`,
-                    `kilos_teoricos`, `kilos_reales`, `hora_inicio`, `hora_fin`)
-                VALUES (" .
-                    "'" . $jefeId . "', " .
-                    "'" . $productoLineaId . "', " .
-                    "'" . $params["idPersonalizado"] . "', " .
-                    "'" . $params["kilosTeoricos"] . "', " .
-                    "'" . $params["kilosReales"] . "', " .
-                    "(SELECT CONVERT('" . $params["horaInicio"] . "', time)), " .
-                    "(SELECT CONVERT(NOW(), time)))";
-        
-        $result = $this->formatted_database_query($sql);
-
-        if ($result["success"] == 1)
-        {
-            if (!isset($params["lista"]) || empty($params["lista"]))
-                return $result;
-
-            foreach ($params["lista"] as $incidencia)
-            {
-                $result2 = $this->add_incidencia($incidencia);
-
-                if ($result2["success"] == 0)
-                    return $result2;
-            }
-        }
-
-        return $result;
+        return array(
+            "jefeId" => $jefeId,
+            "productoLineaId" => $productoLineaId
+        );
     }
+
     private function add_incidencia($params)
     {
         $sql = "INSERT INTO proceso_incidencia (`id_proceso`, `descripcion`,
@@ -129,6 +164,50 @@ class ProcesoService extends Service
                     $params["descripcion"] . "', " .
                     "(SELECT CONVERT('" . $params['horaParada'] . "', time)), " .
                     "(SELECT CONVERT('" . $params['horaReinicio'] . "', time)))";
+
+        return $this->formatted_database_query($sql);
+    }
+
+    private function add_peso($params)
+    {
+        if ($this->add_tolerancias($params)["success"] == 0)
+            return $result;
+
+        $tolerancias = $this->get_num_tolerancias()["data"][0];
+        $proceso = $this->get_num_procesos()["data"][0];
+
+        $sql = "INSERT INTO proceso_peso (`id_proceso`, `id_tolerancias`, `peso_produccion`,
+                    `numero_unidades`, `peso_bobinas`, `peso_total_bobina`,
+                    `numero_cubetas`, `peso_cubetas`, `peso_bobina_cubetas`,
+                    `peso_objetivo`, `margen_sobrepeso`, `margen_subpeso`)
+                VALUES ('" .
+                $proceso . "', '" .
+                $tolerancias . "', '" .
+                $params["pesoProduccion"] . "', '" .
+                $params["numeroUnidades"] . "', '" .
+                $params["pesoBobina"] . "', '" .
+                $params["pesoTotalBobina"] . "', '" .
+                $params["numeroCubetas"] . "', '" .
+                $params["pesoCubeta"] . "', '" .
+                $params["pesoBobinaCubeta"] . "', '" .
+                $params["pesoUnitarioObjetivo"] . "', '" .
+                $params["margenSobrepeso"] . "', '" .
+                $params["margenSubpeso"] . "')";
+
+        return $this->formatted_database_query($sql);
+    }
+
+    private function add_tolerancias($params)
+    {
+        $sql = "INSERT INTO tolerancias (`rango_1`, `rango_2`, `rango_3`,
+                    `rango_4`, `rango_5`, `rango_6`, `rango_7`) VALUES('" .
+                    $params["tolerancia1"] . "', '" .
+                    $params["tolerancia2"] . "', '" .
+                    $params["tolerancia3"] . "', '" .
+                    $params["tolerancia4"] . "', '" .
+                    $params["tolerancia5"] . "', '" .
+                    $params["tolerancia6"] . "', '" .
+                    $params["tolerancia7"] . "')";
 
         return $this->formatted_database_query($sql);
     }
@@ -149,6 +228,18 @@ class ProcesoService extends Service
                "    VALUES('" . $producto . "', '" . $linea . "')";
         
         return $this->formatted_database_query($sql);
+    }
+
+    private function get_num_procesos()
+    {
+        $sql = "SELECT COUNT(*) FROM proceso";
+        return $this->formatted_database_query($sql, DATABASE_QUERY_VALUES);
+    }
+
+    private function get_num_tolerancias()
+    {
+        $sql = "SELECT COUNT(*) FROM tolerancias";
+        return $this->formatted_database_query($sql, DATABASE_QUERY_VALUES);
     }
 }
 

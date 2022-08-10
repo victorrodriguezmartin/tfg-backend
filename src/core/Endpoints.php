@@ -62,20 +62,20 @@ $endpoints = array(
                     "service" => "ProcesoService",
                     "endpoint" => "get_procesos"),
 
-    "addProceso" => array(
+    "addProcesoIncidencia" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
-                    "endpoint" => "add_proceso"),
+                    "endpoint" => "add_proceso_incidencia"),
+
+    "addProcesoPeso" => array(
+                    "type" => "POST",
+                    "service" => "ProcesoService",
+                    "endpoint" => "add_proceso_peso"),
 
     "getIncidenciasProcesoById" => array(
                     "type" => "GET",
                     "service" => "IncidenciaService",
                     "endpoint" => "get_incidencias_proceso_by_id"),
-
-    "nuevaIncidencia" => array(
-                    "type" => "POST",
-                    "service" => "IncidenciaService",
-                    "endpoint" => "add_incidencia")
 );
 
 ?>
