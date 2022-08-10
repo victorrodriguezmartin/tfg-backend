@@ -53,16 +53,21 @@ $endpoints = array(
                     "service" => "ProductoService",
                     "endpoint" => "get_productos"),
 
-    // "getProcesoById" => array(
-    //                 "type" => "GET",
-    //                 "service" => "ProcesoService",
-    //                 "endpoint" => "get_proceso_by_id"),
-
     "getProcesos" => array(
                     "type" => "GET",
                     "service" => "ProcesoService",
                     "endpoint" => "get_procesos"),
 
+    "getProcesosIncidencia" => array(
+                    "type" => "GET",
+                    "service" => "ProcesoService",
+                    "endpoint" => "get_proceso_and_proceso_incidencia"),
+
+    "getProcesosPeso" => array(
+                    "type" => "GET",
+                    "service" => "ProcesoService",
+                    "endpoint" => "get_proceso_and_proceso_peso"),
+    
     "addProcesoIncidencia" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
@@ -72,27 +77,6 @@ $endpoints = array(
                     "type" => "POST",
                     "service" => "ProcesoService",
                     "endpoint" => "add_proceso_and_proceso_peso"),
-
-    // "getProcesoIncidencias" => array(
-    //                 "type" => "GET",
-    //                 "service" => "ProcesoIncidenciaService",
-    //                 "endpoint" => "get_proceso_incidencias"),
-        
-    // "getProcesoIncidenciasById" => array(
-    //                 "type" => "GET",
-    //                 "service" => "ProcesoIncidenciaService",
-    //                 "endpoint" => "get_proceso_incidencias_by_id"),
-    
-    // "getProcesoPesos" => array(
-    //                 "type" => "GET",
-    //                 "service" => "ProcesoPesoService",
-    //                 "endpoint" => "get_proceso_pesos"),
-
-    // "getProcesoPesoById" => array(
-    //                 "type" => "GET",
-    //                 "service" => "ProcesoPesoService",
-    //                 "endpoint" => "get_proceso_peso_by_id"),
-
 );
 
 ?>
