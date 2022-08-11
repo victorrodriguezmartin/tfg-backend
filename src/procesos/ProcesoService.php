@@ -21,29 +21,7 @@ class ProcesoService extends Service
         $this->procesoPesoService = new ProcesoPesoService();
     }
 
-    public function get_procesos()
-    {
-        $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
-                       proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
-                       e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto
-                    FROM proceso AS proc
-
-                    INNER JOIN miembro_equipo AS me
-                        ON me.id_miembro LIKE proc.id_jefe
-                    INNER JOIN empleado AS e
-                        ON e.id_empleado LIKE me.id_empleado
-                    
-                    INNER JOIN producto_linea AS pl
-                        ON pl.id_producto_linea LIKE proc.id_producto_linea
-                    INNER JOIN producto AS prod
-                        ON prod.id_producto LIKE pl.id_producto
-                    INNER JOIN linea AS l
-                        ON l.id_linea LIKE pl.id_linea";
-        
-        return $this->formatted_database_query($sql); 
-    }
-
-    public function get_proceso_and_proceso_incidencia()
+    public function get_procesos_and_proceso_incidencia()
     {
         $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
                        proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
@@ -53,7 +31,7 @@ class ProcesoService extends Service
                     FROM proceso AS proc
                     
                     INNER JOIN miembro_equipo AS me
-                        ON me.id_miembro LIKE proc.id_jefe
+                        ON me.id_miembro_equipo LIKE proc.id_jefe
                     INNER JOIN empleado AS e
                         ON e.id_empleado LIKE me.id_empleado
                     
@@ -74,11 +52,43 @@ class ProcesoService extends Service
         return $this->formatted_database_query($sql);
     }
 
-    public function get_proceso_and_proceso_peso()
+    public function get_procesos_and_proceso_incidencia_by_id($param)
+    {
+            $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
+                       proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
+                       e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto,
+                       pi.descripcion as descripcion, pi.hora_parada as horaParada,
+                       pi.hora_reinicio as horaReinicio
+                    FROM proceso AS proc
+                    
+                    INNER JOIN miembro_equipo AS me
+                        ON me.id_miembro_equipo LIKE proc.id_jefe
+                    INNER JOIN empleado AS e
+                        ON e.id_empleado LIKE me.id_empleado
+                    
+                    INNER JOIN producto_linea AS pl
+                        ON pl.id_producto_linea LIKE proc.id_producto_linea
+                    INNER JOIN producto AS prod
+                        ON prod.id_producto LIKE pl.id_producto
+                    INNER JOIN linea AS l
+                        ON l.id_linea LIKE pl.id_linea
+
+                    LEFT JOIN proceso_incidencia as pi
+                        ON pi.id_proceso LIKE proc.id_proceso
+
+                    LEFT JOIN proceso_peso as pp
+                        ON pp.id_proceso LIKE proc.id_proceso
+                    WHERE pp.id_proceso IS NULL
+                        AND proc.id_personalizado LIKE '" . $param["id"] . "'";
+
+        return $this->formatted_database_query($sql);
+    }
+
+    public function get_procesos_and_proceso_peso()
     {
         $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
                        proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
-                       e.nombre, l.codigo, prod.nombre,
+                       e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto,
                        pp.peso_produccion, pp.numero_unidades, pp.peso_bobinas,
                        pp.peso_total_bobina, pp.numero_cubetas, pp.peso_cubetas,
                        pp.peso_bobina_cubetas, pp.peso_objetivo, pp.margen_sobrepeso,
@@ -86,7 +96,7 @@ class ProcesoService extends Service
                     FROM proceso AS proc
                     
                     INNER JOIN miembro_equipo AS me
-                        ON me.id_miembro LIKE proc.id_jefe
+                        ON me.id_miembro_equipo LIKE proc.id_jefe
                     INNER JOIN empleado AS e
                         ON e.id_empleado LIKE me.id_empleado
                     
@@ -99,6 +109,36 @@ class ProcesoService extends Service
 
                     INNER JOIN proceso_peso as pp
                         ON pp.id_proceso LIKE proc.id_proceso";
+
+        return $this->formatted_database_query($sql);
+    }
+
+    public function get_procesos_and_proceso_peso_by_id($param)
+    {
+        $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
+                       proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
+                       e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto,
+                       pp.peso_produccion, pp.numero_unidades, pp.peso_bobinas,
+                       pp.peso_total_bobina, pp.numero_cubetas, pp.peso_cubetas,
+                       pp.peso_bobina_cubetas, pp.peso_objetivo, pp.margen_sobrepeso,
+                       pp.margen_subpeso
+                    FROM proceso AS proc
+                    
+                    INNER JOIN miembro_equipo AS me
+                        ON me.id_miembro_equipo LIKE proc.id_jefe
+                    INNER JOIN empleado AS e
+                        ON e.id_empleado LIKE me.id_empleado
+                    
+                    INNER JOIN producto_linea AS pl
+                        ON pl.id_producto_linea LIKE proc.id_producto_linea
+                    INNER JOIN producto AS prod
+                        ON prod.id_producto LIKE pl.id_producto
+                    INNER JOIN linea AS l
+                        ON l.id_linea LIKE pl.id_linea
+
+                    INNER JOIN proceso_peso as pp
+                        ON pp.id_proceso LIKE proc.id_proceso
+                    WHERE proc.id_personalizado LIKE '" . $param["id"] . "'";
 
         return $this->formatted_database_query($sql);
     }
@@ -174,7 +214,9 @@ class ProcesoService extends Service
     {
         // GET JEFE ID BY NAME.
         $jefeId = $this->empleadoService->get_jefe_by_name($params["jefe"]);
+        // print_r($jefeId);
         $jefeId = $jefeId["data"][0]["id_empleado"];
+        // print_r($jefeId);
 
         // GET PRODUCTO ID BY CODE.
         $productoId = $this->productoService->get_producto_by_codigo($params["producto"]);

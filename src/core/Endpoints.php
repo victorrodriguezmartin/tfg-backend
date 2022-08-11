@@ -53,21 +53,26 @@ $endpoints = array(
                     "service" => "ProductoService",
                     "endpoint" => "get_productos"),
 
-    "getProcesos" => array(
-                    "type" => "GET",
-                    "service" => "ProcesoService",
-                    "endpoint" => "get_procesos"),
-
     "getProcesosIncidencia" => array(
                     "type" => "GET",
                     "service" => "ProcesoService",
-                    "endpoint" => "get_proceso_and_proceso_incidencia"),
+                    "endpoint" => "get_procesos_and_proceso_incidencia"),
+
+    "getProcesosIncidenciaById" => array(
+                        "type" => "GET",
+                        "service" => "ProcesoService",
+                        "endpoint" => "get_procesos_and_proceso_incidencia_by_id"),
 
     "getProcesosPeso" => array(
                     "type" => "GET",
                     "service" => "ProcesoService",
-                    "endpoint" => "get_proceso_and_proceso_peso"),
+                    "endpoint" => "get_procesos_and_proceso_peso"),
     
+    "getProcesosPesoById" => array(
+                    "type" => "GET",
+                    "service" => "ProcesoService",
+                    "endpoint" => "get_procesos_and_proceso_peso_by_id"),
+
     "addProcesoIncidencia" => array(
                     "type" => "POST",
                     "service" => "ProcesoService",
