@@ -22,7 +22,7 @@ class EmpleadoService extends Service
 
     public function get_jefe_by_name($name)
     {
-        $sql =  "SELECT empleado.id_empleado,
+        $sql =  "SELECT miembro_equipo.id_miembro_equipo as id_empleado,
                         empleado.nombre,
                         apellido1,
                         apellido2,
