@@ -36,7 +36,27 @@
                         "type" => "POST",
                         "service" => "ProcesoService",
                         "endpoint" => "add_proceso_peso"),
-                        
+
+        "getProcesosIncidencia" => array(
+                        "type" => "POST",
+                        "service" => "ProcesoService",
+                        "endpoint" => "get_proceso_incidencia"),
+
+        "getProcesosIncidenciaById" => array(
+                        "type" => "POST",
+                        "service" => "ProcesoService",
+                        "endpoint" => "get_proceso_incidencia_by_id"),
+
+        "getProcesosPeso" => array(
+                        "type" => "POST",
+                        "service" => "ProcesoService",
+                        "endpoint" => "get_proceso_peso"),
+
+        "getProcesosPesoById" => array(
+                        "type" => "POST",
+                        "service" => "ProcesoService",
+                        "endpoint" => "get_proceso_peso_by_id"),
+
         "getJefes" => array(
                         "type" => "GET",
                         "service" => "EmpleadoService",
