@@ -56,6 +56,11 @@
                         "type" => "POST",
                         "service" => "ProcesoService",
                         "endpoint" => "get_proceso_peso_by_id"),
+        
+        "getProcesosPesoUnitarioById" => array(
+                        "type" => "POST",
+                        "service" => "ProcesoPesoUnitarioService",
+                        "endpoint" => "get_procesos_peso_unitario_by_proceso_id"),
 
         "getJefes" => array(
                         "type" => "GET",
