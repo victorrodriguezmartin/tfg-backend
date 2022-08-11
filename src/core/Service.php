@@ -64,6 +64,21 @@ class Service
             return $this->format_data(0, $e->getMessage());
         }
     }
+
+    function get_last_inserted_index()
+    {
+        try
+        {
+            $request = $this->database->query("SELECT LAST_INSERT_ID()");
+            $response = $request->fetchAll(DATABASE_QUERY_VALUES);
+
+            return $this->format_data(1, $response);
+        }
+        catch (\PDOException $e)
+        {
+            return $this->format_data(0, $e->getMessage());
+        }
+    }
 }
 
 ?>

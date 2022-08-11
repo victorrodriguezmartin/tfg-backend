@@ -16,9 +16,9 @@ class ProductoService extends Service
         if (!isset($codigo) || empty($codigo))
             return $this->format_data(0, "MISSING PARAMETER");
 
-        $sql = "SELECT id_producto " .
-               "    FROM producto " .
-               "    WHERE codigo LIKE '" . $codigo . "'";
+        $sql = "SELECT *
+                FROM producto
+                WHERE codigo LIKE '" . $codigo . "'";
 
         return $this->formatted_database_query($sql);
     }

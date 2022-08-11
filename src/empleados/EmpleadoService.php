@@ -20,7 +20,7 @@ class EmpleadoService extends Service
         return $this->formatted_database_query($sql);
     }
 
-    public function get_jefe_by_name($name)
+    public function get_jefe_by_nombre($name)
     {
         $sql =  "SELECT miembro_equipo.id_miembro_equipo as id_empleado,
                         empleado.nombre,

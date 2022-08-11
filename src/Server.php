@@ -1,52 +1,38 @@
 
 <?php
 
-require_once('ServerResponse.php');
+    require_once('ServerResponse.php');
 
-require_once('core/Service.php');
-require_once('core/Endpoints.php');
+    require_once('core/Service.php');
+    require_once('core/Endpoints.php');
 
-// http://localhost/backend/Server.php
-if ($_SERVER['REQUEST_METHOD'] === 'GET')
-{
-    if (!isset($_GET["request"]) || empty($_GET["request"]))
-        return bad_request();
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') return contactServer($_GET);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') return contactServer($_POST);
+
     
-    if (array_key_exists($_GET["request"], $endpoints))
+    function contactServer($requestType)
     {
-        $service = new $endpoints[$_GET["request"]]["service"]();
-        $endpoint = $endpoints[$_GET["request"]]["endpoint"];
-
-        $result = $service->$endpoint($_GET);
-
-        if (!isset($result) || empty($result) || !isset($result["success"]) || !isset($result["data"]))
-            return bad_response();
-
-        if ($result["success"] == 0) return db_query_error($result["data"]);
-        if ($result["success"] == 1) return success($result["data"]);
-    }
-
-    return bad_request();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
-{
-    if (!isset($_POST["request"]) || empty($_POST["request"]))
+        if (!isset($requestType["request"]) || empty($requestType["request"]))
         return bad_request();
 
-    if (array_key_exists($_POST["request"], $endpoints))
-    {
-        $service = new $endpoints[$_POST["request"]]["service"]();
-        $endpoint = $endpoints[$_POST["request"]]["endpoint"];
+        $endpoints = $GLOBALS["endpoints"];
 
-        $result = $service->$endpoint($_POST);
+        if (array_key_exists($requestType["request"], $endpoints))
+        {
+            $service = new $endpoints[$requestType["request"]]["service"]();
+            $endpoint = $endpoints[$requestType["request"]]["endpoint"];
 
-        if ($result["success"] == 0) return db_query_error($result["data"]);
-        if ($result["success"] == 1) return success($result["data"]);
+            $result = $service->$endpoint($requestType);
+
+            if (!isset($result) || empty($result) || !isset($result["success"]) || !isset($result["data"]))
+                return bad_response();
+
+            if ($result["success"] == 0) return db_query_error($result["data"]);
+            if ($result["success"] == 1) return success($result["data"]);
+        }
+
+        return bad_request();
     }
-
-    return bad_request();
-}
 
 ?>
 
