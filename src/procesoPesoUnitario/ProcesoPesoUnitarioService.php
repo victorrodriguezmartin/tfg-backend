@@ -12,8 +12,6 @@ class ProcesoPesoUnitarioService extends Service
 
     public function insert_peso_unitario($params)
     {
-        print_r($params);
-
         $sql = "INSERT INTO proceso_peso_unitario (`id_proceso_peso`, `peso`, `hora`)" .
                " VALUES ('" .
                $params["id_proceso_peso"] . "', '" .
