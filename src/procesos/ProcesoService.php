@@ -193,9 +193,10 @@ class ProcesoService extends Service
         $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
                        proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
                        e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto,
-                       pp.numero_unidades, pp.peso_bobinas, pp.peso_total_bobina,
-                       pp.numero_cubetas, pp.peso_cubetas, pp.peso_bobina_cubetas,
-                       pp.peso_objetivo, pp.margen_sobrepeso, pp.margen_subpeso
+                       pp.id_proceso_peso, pp.numero_unidades, pp.peso_bobinas,
+                       pp.peso_total_bobina, pp.numero_cubetas, pp.peso_cubetas,
+                       pp.peso_bobina_cubetas, pp.peso_objetivo, pp.margen_sobrepeso,
+                       pp.margen_subpeso
                     FROM proceso AS proc
                     
                     INNER JOIN miembro_equipo AS me
@@ -221,9 +222,10 @@ class ProcesoService extends Service
         $sql = "SELECT proc.id_proceso, proc.id_personalizado, proc.kilos_teoricos,
                        proc.kilos_reales, proc.hora_inicio, proc.hora_fin,
                        e.nombre AS jefe, l.codigo AS linea, prod.nombre AS producto,
-                       pp.numero_unidades, pp.peso_bobinas, pp.peso_total_bobina,
-                       pp.numero_cubetas, pp.peso_cubetas, pp.peso_bobina_cubetas,
-                       pp.peso_objetivo, pp.margen_sobrepeso, pp.margen_subpeso
+                       pp.id_proceso_peso, pp.numero_unidades, pp.peso_bobinas,
+                       pp.peso_total_bobina, pp.numero_cubetas, pp.peso_cubetas,
+                       pp.peso_bobina_cubetas, pp.peso_objetivo, pp.margen_sobrepeso,
+                       pp.margen_subpeso
                     FROM proceso AS proc
                     
                     INNER JOIN miembro_equipo AS me
