@@ -104,18 +104,19 @@ class ProcesoService extends Service
             return $result;
 
         $id_proceso_peso = $this->get_last_inserted_index()["data"][0];
-
+        
         if (isset($params["lista"]) && !empty($params["lista"]))
         {
-            foreach ($params["lista"] as $entrada)
+            foreach (json_decode($params["lista"]) as $entrada)
             {
                 $paramsPesoUnitario = array(
                     "id_proceso_peso" => $id_proceso_peso,
-                    "peso" => $entrada
+                    "peso" => $entrada->peso,
+                    "hora" => $entrada->hora
                 );
-    
+
                 $result = $this->procesoPesoUnitarioService->insert_peso_unitario($paramsPesoUnitario);
-                
+
                 if ($result["success"] == 0)
                     break;
             }
