@@ -54,6 +54,14 @@ class ToleranciaService extends Service
         return $this->formatted_database_query($sql);
     }
 
+    public function get_tolerancia_by_id($params)
+    {
+        $sql = "SELECT * FROM tolerancias " .
+               " WHERE id_tolerancias LIKE '" . $params["id"] . "'";
+
+        return $this->formatted_database_query($sql);
+    }
+
     // PARAMS = [ tolerancia_1, tolerancia_2, ..., tolerancia_7 ]
     public function insert_tolerancia($params)
     {

@@ -62,6 +62,11 @@
                         "service" => "ProcesoPesoUnitarioService",
                         "endpoint" => "get_procesos_peso_unitario_by_proceso_id"),
 
+        "getToleranciasById" => array(
+                        "type" => "POST",
+                        "service" => "ToleranciaService",
+                        "endpoint" => "get_tolerancia_by_id"),
+
         "getJefes" => array(
                         "type" => "GET",
                         "service" => "EmpleadoService",
