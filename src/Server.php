@@ -24,7 +24,7 @@
 
             $result = $service->$endpoint($requestType);
 
-            if (!isset($result) || empty($result) || !isset($result["success"]) || !isset($result["data"]))
+            if (isResultValid($result))
                 return bad_response();
 
             if ($result["success"] == 0) return db_query_error($result["data"]);
@@ -32,6 +32,11 @@
         }
 
         return bad_request();
+    }
+
+    function isResultValid($result)
+    {
+        return (!isset($result) || empty($result) || !isset($result["success"]) || !isset($result["data"]));
     }
 
 ?>
